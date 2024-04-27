@@ -1,0 +1,31 @@
+Assignment 2
+Q2)
+Part 1:
+The aim of the calculation below is to determine the “average charge used per hour” in milli-Ampere(mA) per hour(h). 
+In the data sheet nexus 6 we were given 8 different colours, for this specific calculation we only took into consideration the colour red, blue and green. 
+The first step we took was to calculate the average charge consumption in (nA). 
+This was done by averaging the column charged_used_accumulated of each respective colour and for each specify sample size ranging from 10, 100, 1000 and the full sample duration of the experiment. 
+For red and blue this was 7208 samples and for green was 7207 samples. We then subtracted the average charge consumption with the average charge consumption of the colour black. 
+This was done similar to the colours red, blue and green.  We then calculated the time duration of the experiment for each sample size of each colour. 
+We then divided the time duration by 3600000 to change the duration from ms to hours(h). The all average charge consumption of each respective colour subtracted with the average charge consumption black was then divided by the time duration in hours calculated to obtained average charge used per hour(mAh). 
+We can simplify this in a simple to understand equation. 
+Let’s denote:
+C total=total charge consumed by respective colour (Red,Blue,Green)
+B total=total charge consumed by Black
+T total=total time duration of experiment for specific colours
+N=sample size considered 10, 100, 1000, 7207/7208
+The equation used will be
+ mAh =((Avergae(C total)-Average(B total)))/((T total/3600000))
+We will then use this equation for all sample size steps of 10, 100, 1000 and 7208 for red and blue and 7207 for green. 
+Fig 1 below is the results we obtained using this equation for each colours and sample sizes. 
+Results:
+
+
+ 
+
+
+Looking at the graph that we plotted we can see that initially for the sample size of 10 the color green consumes more mA compared to red and blue per hour and red uses slightly more mA compared to blue.
+Green initially consumes more mA per hour than red but over time the amount of mA required to continue using green reduces signficanlty more than red, to the point that green towards the end of the experiment green only slightly uses more mA per hour than red. 
+Blue initial consumes less mA per hour compared to red and green but as the experiment continues we can start to see that the colour blue starts to consume significantly more mA per hour when compared to the colour red and green.
+The reason for the phenemon is due to the difference of wavelengths, blue is considered to have a shorter wavelength when compared to red and green. 
+As such requires more energy to produce the same amount of brightness as red and green would require to use.  
