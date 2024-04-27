@@ -73,7 +73,9 @@ public class GuiOptimiser {
             try {
                 Thread.sleep(targetAppRunningtime);
                 Capture capture = new Capture();
-                capture.takeScreenShoot();
+                String cLocation = capture.takeScreenShoot();
+                System.out.println("ss path" + cLocation);
+                CalculateBattery.calculateChargeConsumptionPerPixel("SBSE_Group3/code/GuiOptimiser/SS1.PNG");
 //                BufferedReader stdError = new BufferedReader(new
 //                InputStreamReader(process.getErrorStream()));
 //                String line = "";

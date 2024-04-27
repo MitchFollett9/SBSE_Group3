@@ -19,10 +19,10 @@ public class CalculateBattery {
         // code to be executed
         return (R*redpower + B*bluepower + G*greenpower);
       }
-    public static float calculateChargeConsumptionPerPixel(String[] args) {
+    public static float calculateChargeConsumptionPerPixel(String pathname) {
         try {
             System.out.println(redpower); 
-            File file = new File("SBSE_Group3/code/GuiOptimiser/SS1.PNG");
+            File file = new File(pathname);
             if (!file.exists()) {
                 System.out.println("Image file NOT FOUND at: " + file.getAbsolutePath());
             } else if (!file.canRead()) {
