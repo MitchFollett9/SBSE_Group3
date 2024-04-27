@@ -1,4 +1,4 @@
-package code.GuiOptimiser;
+package guioptimiser;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -19,7 +19,7 @@ public class CalculateBattery {
         // code to be executed
         return (R*redpower + B*bluepower + G*greenpower);
       }
-    public static void main(String[] args) {
+    public static float calculateChargeConsumptionPerPixel(String[] args) {
         try {
             System.out.println(redpower); 
             File file = new File("SBSE_Group3/code/GuiOptimiser/SS1.PNG");
@@ -32,6 +32,7 @@ public class CalculateBattery {
             }
             System.out.println(file); 
             BufferedImage image = ImageIO.read(file);
+
             
             // Get image width and height
             int w = image.getWidth();
@@ -48,9 +49,10 @@ public class CalculateBattery {
                     int blue =   clr & 0x000000ff;
                     totalPower = totalPower + calculatePixel(red, green, blue);
                 }
-            System.out.println(totalPower * 1000);
+            return totalPower;
         } catch (IOException e) {
             e.printStackTrace();
+            return 0;
         }
     }
 }
