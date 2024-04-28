@@ -26,7 +26,6 @@ public class CalculateBattery {
                 System.out.println("Loading valid image file from: " + file.getAbsolutePath());
             }
             BufferedImage image = ImageIO.read(file);
-
             // Get image width and height
             int w = image.getWidth();
             int h = image.getHeight();
@@ -40,6 +39,7 @@ public class CalculateBattery {
                     int blue =   clr & 0x000000ff;
                     totalPower = totalPower + calculatePixelmAh(red, green, blue);
                 }
+            file.delete();
             return totalPower;
         } catch (IOException e) {
             e.printStackTrace();

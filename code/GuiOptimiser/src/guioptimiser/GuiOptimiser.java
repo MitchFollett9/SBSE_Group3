@@ -27,6 +27,7 @@ public class GuiOptimiser {
 
     private static String TARGET_APP = "calculator.jar";
     //private static final String TARGET_APP = "simpleApp.jar";
+    private static final String TARGET_APP_TEMP_COLOR = "temp_colour.csv";
     private static final String TARGET_APP_COLOR = "color.csv";
     private static final int TARGET_APP_RUNNINGTIME = 1000;
     private static final String JAVA_COMMAND = "java -jar ";
@@ -51,17 +52,129 @@ public class GuiOptimiser {
                 return;
         }
         parentDir = getParentDir();
+
+        float result = genetic(10);
+
+        System.out.println(result);
+
+    }
+    // private 
+    public static float randomOptimisation() {
+        float lowestPower = 999999999; 
         //System.out.println(parentDir.concat(TARGET_APP));
         for (int i = 0; i < 5; i++) //RunTargetApp runTargetApp = new RunTargetApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
         {
             //runApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
-            runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
-            changeColorAll();
+            ColourInfo ci = changeColorAll();
+
+            ArrayList<Integer> textColour = ci.RGB.get(19);
+            ArrayList<Integer> textFieldColour = ci.RGB.get(20);
+            double euclideanDistance = ColourInfo.getEuclidean(textColour, textFieldColour);
+
+            if (euclideanDistance > 128){
+                float powerResult = runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
+
+                System.out.println(euclideanDistance);
+
+                if (powerResult < lowestPower){
+                    lowestPower = powerResult;
+                    saveToCSV(parentDir.concat(TARGET_APP_TEMP_COLOR), ci.guiComponents, ci.RGB);
+                }
+            }
+        }
+        return lowestPower;
+    }   
+    public static float hillClimber(int runTimes) {
+        float lowestPower = 999999999; 
+        ColourInfo ci = changeColorAll(); // initial location
+        //System.out.println(parentDir.concat(TARGET_APP));
+
+        for (int i = 0; i < runTimes; i++) //RunTargetApp runTargetApp = new RunTargetApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
+        {
+            ArrayList<ColourInfo> similars = ci.getSimilarSolutions();
+
+            similars.add(ci);
+
+            for (int k =0; k<similars.size(); k++){
+                ColourInfo tempCI = similars.get(k);
+                ArrayList<Integer> textColour = tempCI.RGB.get(19);
+                ArrayList<Integer> textFieldColour = tempCI.RGB.get(20);
+                double euclideanDistance = ColourInfo.getEuclidean(textColour, textFieldColour);
+                saveToCSV(parentDir.concat(TARGET_APP_COLOR), tempCI.guiComponents, tempCI.RGB);
+    
+                if (euclideanDistance > 128){
+                    float powerResult = runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
+    
+                    if (powerResult < lowestPower){
+                        lowestPower = powerResult;
+                        System.out.println("new lowest power");
+                        System.out.println(lowestPower);
+                        ci = tempCI;
+                        saveToCSV(parentDir.concat(TARGET_APP_TEMP_COLOR), tempCI.guiComponents, tempCI.RGB);
+                    }
+                }
+            }
+        }
+        return lowestPower;
+    }
+    public static float genetic(int runTimes) {
+        float lowestPower = 999999999;
+        Population pop = new Population();
+
+        for (int k =0; k<5; k++){
+            ColourInfo tempCI = changeColorAll();
+            ArrayList<Integer> textColour = tempCI.RGB.get(19);
+            ArrayList<Integer> textFieldColour = tempCI.RGB.get(20);
+            double euclideanDistance = ColourInfo.getEuclidean(textColour, textFieldColour);
+            saveToCSV(parentDir.concat(TARGET_APP_COLOR), tempCI.guiComponents, tempCI.RGB);
+
+            if (euclideanDistance > 128){
+                float powerResult = runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
+
+                if (powerResult < lowestPower){
+                    lowestPower = powerResult;
+                    System.out.println("new lowest power");
+                    System.out.println(lowestPower);
+                    saveToCSV(parentDir.concat(TARGET_APP_TEMP_COLOR), tempCI.guiComponents, tempCI.RGB);
+                }
+                Citizen tempCit = new Citizen(tempCI, powerResult);
+                pop.addOrDiscardCitizen(tempCit);
+            }
+
+        }
+        for (int i = 0; i < runTimes; i++) //RunTargetApp runTargetApp = new RunTargetApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
+        {
+            ArrayList<ColourInfo> similars = ColourInfo.getGeneticSolutions(pop.citizens);
+
+            for (int k =0; k<similars.size(); k++){
+                ColourInfo tempCI = similars.get(k);
+                ArrayList<Integer> textColour = tempCI.RGB.get(19);
+                ArrayList<Integer> textFieldColour = tempCI.RGB.get(20);
+                double euclideanDistance = ColourInfo.getEuclidean(textColour, textFieldColour);
+                saveToCSV(parentDir.concat(TARGET_APP_COLOR), tempCI.guiComponents, tempCI.RGB);
+    
+                if (euclideanDistance > 128){
+                    float powerResult = runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
+    
+                    if (powerResult < lowestPower){
+                        lowestPower = powerResult;
+                        System.out.println("new lowest power");
+                        System.out.println(lowestPower);
+                        saveToCSV(parentDir.concat(TARGET_APP_TEMP_COLOR), tempCI.guiComponents, tempCI.RGB);
+                    }
+                    Citizen tempCit = new Citizen(tempCI, powerResult);
+                    pop.addOrDiscardCitizen(tempCit);
+                }
+            }
         }
 
+
+
+
+        return 0;
     }
 
-    public static void runApp(String path, int targetAppRunningtime) {
+    public static float runApp(String path, int targetAppRunningtime) {
         try {
             //java -jar C:\Users\Mahmoud-Uni\Documents\NetBeansProjects\calculator\dist\calculator.jar
 
@@ -75,7 +188,7 @@ public class GuiOptimiser {
                 Capture capture = new Capture();
                 String cLocation = capture.takeScreenShoot();
                 float batterymAh = CalculateBattery.calculateChargeConsumptionPerPixel(cLocation);
-                System.out.println(batterymAh);
+                // System.out.println(batterymAh);
 //                BufferedReader stdError = new BufferedReader(new
 //                InputStreamReader(process.getErrorStream()));
 //                String line = "";
@@ -84,17 +197,19 @@ public class GuiOptimiser {
 //                    System.out.println("error!");
 //                    System.out.println(line);
 //                }
+                process.destroy();
+                return batterymAh;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Target App");
-            process.destroy();
+            return 999999999;
         } catch (IOException e) {
             e.printStackTrace();
+            return 999999999;
         }
     }
 
-    public static void changeColorAll() {
+    public static ColourInfo changeColorAll() {
         try {
             // guiComponents contains GUI components' name.
             ArrayList<String> guiComponents = new ArrayList<>();
@@ -150,11 +265,13 @@ public class GuiOptimiser {
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
-
+            RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
+            
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
+            
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
-            RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
+            
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
@@ -162,8 +279,11 @@ public class GuiOptimiser {
             RGB.add(new ArrayList<Integer>(Arrays.asList(new Integer[]{randomInt.nextInt(256), randomInt.nextInt(256), randomInt.nextInt(256)})));
 
             saveToCSV(parentDir.concat(TARGET_APP_COLOR), guiComponents, RGB);
+            ColourInfo ci = new ColourInfo(guiComponents, RGB);
+            return ci;
         } catch (Exception e) {
             e.printStackTrace();
+            return new ColourInfo();
         }
 
     }
