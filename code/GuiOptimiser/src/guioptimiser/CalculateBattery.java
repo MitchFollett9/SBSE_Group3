@@ -8,20 +8,22 @@ import javax.imageio.ImageIO;
 
 
 public class CalculateBattery {
+
+    // folowing are all in mAh
     
-    static float redpower = (float)120/(float)3686400;
+    static float redpower = (float)120;
 
-    static float bluepower = (float)240/(float)3686400;
+    static float bluepower = (float)240;
 
-    static float greenpower = (float)140/(float)3686400;
-    // static int 
-    static float calculatePixel(int R, int G, int B) { // 10-3
-        // code to be executed
-        return (R*redpower + B*bluepower + G*greenpower);
+    static float greenpower = (float)140;
+
+    static float blackpower = (float)60;
+
+    static float calculatePixelmAh(int R, int G, int B) {
+        return ((R*redpower + B*bluepower + G*greenpower) - blackpower)/(float)3686400;
       }
     public static float calculateChargeConsumptionPerPixel(String pathname) {
         try {
-            System.out.println(redpower); 
             File file = new File(pathname);
             if (!file.exists()) {
                 System.out.println("Image file NOT FOUND at: " + file.getAbsolutePath());
@@ -47,7 +49,7 @@ public class CalculateBattery {
                     int red =   (clr & 0x00ff0000) >> 16;
                     int green = (clr & 0x0000ff00) >> 8;
                     int blue =   clr & 0x000000ff;
-                    totalPower = totalPower + calculatePixel(red, green, blue);
+                    totalPower = totalPower + calculatePixelmAh(red, green, blue);
                 }
             return totalPower;
         } catch (IOException e) {

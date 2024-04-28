@@ -66,7 +66,7 @@ public class GuiOptimiser {
             //java -jar C:\Users\Mahmoud-Uni\Documents\NetBeansProjects\calculator\dist\calculator.jar
 
             //path = "\""+path+"\"";
-            System.out.println("Target App" + path);
+            System.out.println("Target App " + path);
 
             Runtime runTime = Runtime.getRuntime();
             Process process = runTime.exec(JAVA_COMMAND.concat(path));
@@ -74,8 +74,8 @@ public class GuiOptimiser {
                 Thread.sleep(targetAppRunningtime);
                 Capture capture = new Capture();
                 String cLocation = capture.takeScreenShoot();
-                System.out.println("ss path" + cLocation);
-                CalculateBattery.calculateChargeConsumptionPerPixel("SBSE_Group3/code/GuiOptimiser/SS1.PNG");
+                float batterymAh = CalculateBattery.calculateChargeConsumptionPerPixel(cLocation);
+                System.out.println(batterymAh);
 //                BufferedReader stdError = new BufferedReader(new
 //                InputStreamReader(process.getErrorStream()));
 //                String line = "";
