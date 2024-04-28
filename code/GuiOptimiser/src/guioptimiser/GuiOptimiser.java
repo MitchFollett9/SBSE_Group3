@@ -53,16 +53,17 @@ public class GuiOptimiser {
         }
         parentDir = getParentDir();
 
-        float result = genetic(10);
+        float result = hillClimber(100);
 
         System.out.println(result);
 
     }
     // private 
-    public static float randomOptimisation() {
+    public static float randomOptimisation(int runs) {
         float lowestPower = 999999999; 
+        ArrayList<Integer> resultArray = new ArrayList<>();
         //System.out.println(parentDir.concat(TARGET_APP));
-        for (int i = 0; i < 5; i++) //RunTargetApp runTargetApp = new RunTargetApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
+        for (int i = 0; i < runs; i++) //RunTargetApp runTargetApp = new RunTargetApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
         {
             //runApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
             ColourInfo ci = changeColorAll();
@@ -79,7 +80,9 @@ public class GuiOptimiser {
                     saveToCSV(parentDir.concat(TARGET_APP_TEMP_COLOR), ci.guiComponents, ci.RGB);
                 }
             }
+            resultArray.add((int)lowestPower);
         }
+        System.out.println(resultArray);
         return lowestPower;
     }   
     public static float hillClimber(int runTimes) {
