@@ -1,7 +1,10 @@
 package guioptimiser;
 
 import java.util.ArrayList;
-
+/* 
+ * Populations contain up to 5 citizens, this is to store the best 5 in
+ * a genetic pool
+ */
 public class Population {
     ArrayList<Citizen> citizens;
     float highestpower;

@@ -2,7 +2,10 @@ package guioptimiser;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+/* 
+ * colourinfo stores information on guicomponents and their colours,
+ * as well as this it provides functions for various useful tasks
+ */
 public class ColourInfo {
     ArrayList<String> guiComponents;
     ArrayList<ArrayList<Integer>> RGB;    
@@ -62,7 +65,7 @@ public class ColourInfo {
                 }
             }
         }
-        // add a mutation as well
+        // add a mutation with random attributes each time
         Random rand = new Random(); 
         ColourInfo mutation = getOffSpring(oringialPopulation.get(0).colourInfo, oringialPopulation.get(0).colourInfo);
         returnValue.add(mutation.getSingleSimilar(rand.nextInt(3) , rand.nextInt(300) - 150));

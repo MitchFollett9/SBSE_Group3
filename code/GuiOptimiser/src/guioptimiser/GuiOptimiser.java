@@ -71,7 +71,7 @@ public class GuiOptimiser {
         System.out.println(result);
 
     }
-    // private 
+    // random optimization algorithm, get runs random colour schemes and tests
     public static float randomOptimisation(int runs) {
         float lowestPower = 999999999; 
         ArrayList<Integer> resultArray = new ArrayList<>();
@@ -98,6 +98,7 @@ public class GuiOptimiser {
         System.out.println(resultArray);
         return lowestPower;
     }   
+    // hill climber, starts with a random scheme and chooses neighbors, then picks the best neighbor
     public static float hillClimber(int runTimes) {
         float lowestPower = 999999999; 
         ColourInfo ci = changeColorAll(); // initial location
@@ -134,6 +135,7 @@ public class GuiOptimiser {
         System.out.println(resultArray);
         return lowestPower;
     }
+    // genetic optimisation, starts with a random pool and combines solutions to hopefully inherit the better traits
     public static float genetic(int runTimes) {
         float lowestPower = 999999999;
         Population pop = new Population();
