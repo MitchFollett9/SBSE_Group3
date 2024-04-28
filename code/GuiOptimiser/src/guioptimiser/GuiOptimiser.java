@@ -52,8 +52,21 @@ public class GuiOptimiser {
                 return;
         }
         parentDir = getParentDir();
-
-        float result = hillClimber(100);
+        float result;
+        switch (args[1]) {
+            case "rs":
+                result = randomOptimisation(Integer.parseInt(args[2]));
+                break;
+            case "hc":
+                result = hillClimber(Integer.parseInt(args[2]));
+                break;
+            case "ge":
+                result = genetic(Integer.parseInt(args[2]));
+                break;
+            default:
+                result = randomOptimisation(Integer.parseInt(args[2]));
+                return;
+        }
 
         System.out.println(result);
 
