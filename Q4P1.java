@@ -10,8 +10,8 @@ public class Example1 {
         int repetitions = 10;
         int populationSize = 20;
         int evaluations = 10000;
-        // array of problems
-        Problem problem = new ZDT1();
+        //initialisation of problem
+        Problem problem = new ZDT1(1);
 
         System.out.println("Problem: " + problem.getName());
 
