@@ -18,13 +18,13 @@ public class CalculateBattery {
     public static float calculateChargeConsumptionPerPixel(String pathname) {
         try {
             File file = new File(pathname);
-            if (!file.exists()) {
-                System.out.println("Image file NOT FOUND at: " + file.getAbsolutePath());
-            } else if (!file.canRead()) {
-                System.out.println("No READ perms for file at: " + file.getAbsolutePath());
-            } else {
-                System.out.println("Loading valid image file from: " + file.getAbsolutePath());
-            }
+            // if (!file.exists()) {
+            //     System.out.println("Image file NOT FOUND at: " + file.getAbsolutePath());
+            // } else if (!file.canRead()) {
+            //     System.out.println("No READ perms for file at: " + file.getAbsolutePath());
+            // } else {
+            //     System.out.println("Loading valid image file from: " + file.getAbsolutePath());
+            // }
             BufferedImage image = ImageIO.read(file);
             // Get image width and height
             int w = image.getWidth();

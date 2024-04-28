@@ -29,7 +29,7 @@ public class GuiOptimiser {
     //private static final String TARGET_APP = "simpleApp.jar";
     private static final String TARGET_APP_TEMP_COLOR = "temp_colour.csv";
     private static final String TARGET_APP_COLOR = "color.csv";
-    private static final int TARGET_APP_RUNNINGTIME = 1000;
+    private static final int TARGET_APP_RUNNINGTIME = 2000;
     private static final String JAVA_COMMAND = "java -jar ";
     private static String parentDir = "";
 
@@ -74,8 +74,6 @@ public class GuiOptimiser {
             if (euclideanDistance > 128){
                 float powerResult = runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
 
-                System.out.println(euclideanDistance);
-
                 if (powerResult < lowestPower){
                     lowestPower = powerResult;
                     saveToCSV(parentDir.concat(TARGET_APP_TEMP_COLOR), ci.guiComponents, ci.RGB);
@@ -87,6 +85,7 @@ public class GuiOptimiser {
     public static float hillClimber(int runTimes) {
         float lowestPower = 999999999; 
         ColourInfo ci = changeColorAll(); // initial location
+        ArrayList<Integer> resultArray = new ArrayList<>();
         //System.out.println(parentDir.concat(TARGET_APP));
 
         for (int i = 0; i < runTimes; i++) //RunTargetApp runTargetApp = new RunTargetApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
@@ -114,12 +113,15 @@ public class GuiOptimiser {
                     }
                 }
             }
+            resultArray.add((int)lowestPower);
         }
+        System.out.println(resultArray);
         return lowestPower;
     }
     public static float genetic(int runTimes) {
         float lowestPower = 999999999;
         Population pop = new Population();
+        ArrayList<Integer> resultArray = new ArrayList<>();
 
         for (int k =0; k<5; k++){
             ColourInfo tempCI = changeColorAll();
@@ -166,12 +168,13 @@ public class GuiOptimiser {
                     pop.addOrDiscardCitizen(tempCit);
                 }
             }
+            resultArray.add((int)lowestPower);
         }
 
+        System.out.println(resultArray);
 
 
-
-        return 0;
+        return lowestPower;
     }
 
     public static float runApp(String path, int targetAppRunningtime) {
@@ -179,7 +182,7 @@ public class GuiOptimiser {
             //java -jar C:\Users\Mahmoud-Uni\Documents\NetBeansProjects\calculator\dist\calculator.jar
 
             //path = "\""+path+"\"";
-            System.out.println("Target App " + path);
+            // System.out.println("Target App " + path);
 
             Runtime runTime = Runtime.getRuntime();
             Process process = runTime.exec(JAVA_COMMAND.concat(path));

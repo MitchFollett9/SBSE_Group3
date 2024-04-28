@@ -29,12 +29,12 @@ public class ColourInfo {
     public ArrayList<ColourInfo> getSimilarSolutions(){
         ArrayList<ColourInfo> returnValue = new ArrayList<>();
 
-        returnValue.add(getSingleSimilar(0, -40));
-        returnValue.add(getSingleSimilar(0, 40));
-        returnValue.add(getSingleSimilar(1, -40));
-        returnValue.add(getSingleSimilar(1, 40));
-        returnValue.add(getSingleSimilar(2, -40));
-        returnValue.add(getSingleSimilar(2, 40));
+        returnValue.add(getSingleSimilar(0, -50));
+        returnValue.add(getSingleSimilar(0, 50));
+        returnValue.add(getSingleSimilar(1, -50));
+        returnValue.add(getSingleSimilar(1, 50));
+        returnValue.add(getSingleSimilar(2, -50));
+        returnValue.add(getSingleSimilar(2, 50));
 
         return returnValue;
     }

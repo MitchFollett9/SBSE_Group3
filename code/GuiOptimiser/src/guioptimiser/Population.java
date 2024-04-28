@@ -14,25 +14,33 @@ public class Population {
         if(citizens.size() < 5){
             citizens.add(c);
             highestpower = c.power > highestpower ? c.power : highestpower;
-            System.out.println("Added due to small pop");
+            System.out.println("Added due to small pop " + highestpower);
         }else if(c.power < highestpower){
-            System.out.println("Added due to good score");
             System.out.println(c.power);
             float newHighest = 0;
+            int forRemoval = 0;
+
             for(int i =0; i<5; i++){
-                newHighest = citizens.get(i).power > newHighest ? citizens.get(i).power : newHighest; 
                 if(citizens.get(i).power == highestpower){
-                    citizens.remove(i);
-                    citizens.add(c);
+                    forRemoval = i;
+                }else{
+                    newHighest = citizens.get(i).power > newHighest ? citizens.get(i).power : newHighest; 
                 }
             }
+            citizens.remove(forRemoval);
+            citizens.add(c);
             if (newHighest < c.power){
                 highestpower = c.power;
             }else{
                 highestpower = newHighest;
             }
+            System.out.println("Added due to good score " + highestpower);
         }else{
             // do nothing
+        }
+        System.out.println("data");
+        for (int i = 0; i<citizens.size(); i++){
+            System.out.println(citizens.get(i).power);
         }
     }
 }
