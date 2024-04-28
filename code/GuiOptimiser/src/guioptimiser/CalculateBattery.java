@@ -1,22 +1,15 @@
 package guioptimiser;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 
 public class CalculateBattery {
 
-    // folowing are all in mAh
-    
+    // folowing are all in mAh    
     static float redpower = (float)120;
-
     static float bluepower = (float)240;
-
     static float greenpower = (float)140;
-
     static float blackpower = (float)60;
 
     static float calculatePixelmAh(int R, int G, int B) {
@@ -32,16 +25,12 @@ public class CalculateBattery {
             } else {
                 System.out.println("Loading valid image file from: " + file.getAbsolutePath());
             }
-            System.out.println(file); 
             BufferedImage image = ImageIO.read(file);
 
-            
             // Get image width and height
             int w = image.getWidth();
             int h = image.getHeight();
-
             float totalPower = 0;
-
             for( int i = 0; i < w; i++ )
                 for( int j = 0; j < h; j++ )
                 {
