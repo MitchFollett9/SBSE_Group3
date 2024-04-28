@@ -1,6 +1,7 @@
 package guioptimiser;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ColourInfo {
     ArrayList<String> guiComponents;
@@ -13,7 +14,8 @@ public class ColourInfo {
         RGB = new ArrayList<>();
         guiComponents = new ArrayList<>();
     }
-    private ColourInfo getSingleSimilar(int colour, int movement){        
+    private ColourInfo getSingleSimilar(int colour, int movement){  
+        System.out.println("mutatong " + colour + " " + movement);      
         ArrayList<ArrayList<Integer>> RGBtemp = new ArrayList<>();
         for (int i = 0; i < RGB.size(); i ++){
             ArrayList<Integer> rgbtempvalues = new ArrayList<>();
@@ -60,6 +62,10 @@ public class ColourInfo {
                 }
             }
         }
+        // add a mutation as well
+        Random rand = new Random(); 
+        ColourInfo mutation = getOffSpring(oringialPopulation.get(0).colourInfo, oringialPopulation.get(0).colourInfo);
+        returnValue.add(mutation.getSingleSimilar(rand.nextInt(3) , rand.nextInt(300) - 150));
 
         return returnValue;
     }
